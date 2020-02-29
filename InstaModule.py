@@ -13,7 +13,7 @@ postpath = '6'
 programpath = os.path.dirname(__file__)
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-with open(dir_path + "/credentials.txt", "r") as credentialFile:
+with open(dir_path + "/txts/credentials.txt", "r") as credentialFile:
     username = credentialFile.readline()
     password = credentialFile.readline()
 
@@ -139,7 +139,7 @@ class InstaBotFunctions:
     def randomHashtag(self, amount):
         global dir_path
 
-        with open(dir_path + "/hashtags.txt") as f:
+        with open(dir_path + "/txts/hashtags.txt") as f:
             hashtagList = f.read().splitlines()
 
         hashtagString = ""
@@ -154,6 +154,6 @@ class InstaBotFunctions:
         return hashtagString
 
     def generateTempFile(self, photo_path, caption):
-        with open("temp.txt", "rw") as f:
+        with open("/txts/temp.txt", "rw") as f:
             f.write(photo_path)
             f.write(caption)
