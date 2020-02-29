@@ -17,21 +17,13 @@ with open(dir_path + "/credentials.txt", "r") as credentialFile:
     username = credentialFile.readline()
     password = credentialFile.readline()
 
-def main():
-    seed(1)
-    api = InstagramAPI.InstagramAPI(username, password)
-    api.login()
-    getdata(api)
-    unfollow_all(api)
-    #getusers(api, 'doggosdoingthings')
-    #followusers(api, 20)
-    #getpicsaccount(api, 'dogsofinstagram')
-    #getpicshashtag(api, 'dogsofinstagram')
-    #postpic(api, postpath)
+# init api
+api = InstagramAPI.InstagramAPI(username, password)
+api.login()
 
 
-def getdata(api):
-    print('Get data')
+def getData(api):
+    print('[+] Fetching Data')
     api.getSelfUserFollowers()
     result = api.LastJson
     for user in result['users']:
@@ -42,8 +34,8 @@ def getdata(api):
         following_users.append({'pk': user['pk'], 'username': user['username']})
 
 
-def getusers(api, account):
-    print('Get users')
+def getUsers(api, account):
+    print('[+] Fetching Users')
     api.searchUsername(account)
     result = api.LastJson
     username_id = result['user']['pk']
@@ -56,12 +48,11 @@ def getusers(api, account):
         users_list.append({'pk': user['pk'], 'username': user['username']})
 
 
-def getpicsaccount(api, account):
-    print('Get pictures')
+def getPicsAccount(api, account):
+    print('[+] Fetching Pics from Account')
     path = os.path.join(programpath, 'pics/')
     if not os.path.exists(path):
         os.makedirs(path)
-    
     api.searchUsername(account)
     result = api.LastJson
     username_id = result['user']['pk']
@@ -79,12 +70,11 @@ def getpicsaccount(api, account):
                 os.remove(path + str(i))
 
 
-def getpicshashtag(api, hashtag):
+def getPicsHashtag(api, hashtag):
     print('Get pictures')
     path = programpath + '/pics'
     if not os.path.exists(path):
         os.makedirs(path)
-
     api.getHashtagFeed(hashtag)
     result = api.LastJson
     for i in range(len(result)):
@@ -99,7 +89,7 @@ def getpicshashtag(api, hashtag):
                 os.remove(path + '/' + str(i) + '.jpg')
 
 
-def followusers(api, max):
+def followUsers(api, max):
     print('Follow ' + str(max) + ' users')
     index = 0
     for user in users_list:
@@ -122,19 +112,10 @@ def followusers(api, max):
             return
 
 
-def unfollow_all(api):
-    print('Unfollow all users')
+def unfollowAll(api):
     for user in following_users:
+        print('Unfollow all users')
         print('Unfollowing @' + user['username'])
         api.unfollow(user['pk'])
         # set this really long to avoid from suspension
         sleep(randint(300, 600))
-
-
-def postpic(api, string): # photo = directory
-    print('Post picture')
-    path = programpath + '/pics/' + string + '.jpg'
-    api.uploadPhoto(photo=path, caption='dog pic of the day')
-
-
-main()
