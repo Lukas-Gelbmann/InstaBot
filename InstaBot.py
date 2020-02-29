@@ -1,8 +1,7 @@
-import instaapi
-import InstagramAPI
+import instaModule
 
 def main():
-    api = instaapi.InstaBotFunctions()
+    api = instaModule.InstaBotFunctions()
 
     api.getUsers("hypebeast")
     api.followUsers(20)
