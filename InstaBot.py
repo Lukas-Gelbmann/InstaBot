@@ -1,14 +1,12 @@
 import instaapi
+import InstagramAPI
 
 def main():
-    print("tst")
-    #getdata(api)
-    #unfollow_all(api)
-    #getusers(api, 'doggosdoingthings')
-    #followusers(api, 20)
-    #getpicsaccount(api, 'dogsofinstagram')
-    #getpicshashtag(api, 'dogsofinstagram')
-    #postpic(api, postpath)
+    api = instaapi.InstaBotFunctions()
+
+    api.getUsers("hypebeast")
+    api.followUsers(20)
+
 
 
 main()
