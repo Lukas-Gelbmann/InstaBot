@@ -10,8 +10,7 @@ def main():
     getwebsite(driver)
     fetch(driver)
 
-
-
+    
 def getdriver():
     print('getdriver')
     driver = webdriver.Firefox(executable_path='/usr/bin/geckodriver')
