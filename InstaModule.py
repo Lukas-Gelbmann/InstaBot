@@ -153,5 +153,7 @@ class InstaBotFunctions:
 
         return hashtagString
 
-    def descriptionGenerator(self):
-        pass
+    def generateTempFile(self, photo_path, caption):
+        with open("temp.txt", "rw") as f:
+            f.write(photo_path)
+            f.write(caption)

@@ -1,7 +1,7 @@
-import instaModule
+import InstaModule
 
 def main():
-    bot = instaModule.InstaBotFunctions()
+    bot = InstaModule.InstaBotFunctions()
 
     print(bot.randomHashtag(9))
 
