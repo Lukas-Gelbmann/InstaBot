@@ -1,1 +1,2 @@
 - post pictures?
+- hashtags koennen doppelt vorkommen

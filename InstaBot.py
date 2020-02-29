@@ -1,11 +1,8 @@
 import instaModule
 
 def main():
-    api = instaModule.InstaBotFunctions()
+    bot = instaModule.InstaBotFunctions()
 
-    api.getUsers("hypebeast")
-    api.followUsers(20)
-
-
+    print(bot.randomHashtag(9))
 
 main()

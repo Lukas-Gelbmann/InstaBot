@@ -1,5 +1,5 @@
 import InstagramAPI
-from random import randint, seed
+from random import randint, seed, choice
 from time import sleep
 import os
 import urllib.request
@@ -135,3 +135,23 @@ class InstaBotFunctions:
             api.unfollow(user['pk'])
             # set this really long to avoid from suspension
             sleep(randint(300, 600))
+
+    def randomHashtag(self, amount):
+        global dir_path
+
+        with open(dir_path + "/hashtags.txt") as f:
+            hashtagList = f.read().splitlines()
+
+        hashtagString = ""
+        x = 0
+        while x < amount:
+            tag = choice(hashtagList)
+            
+            hashtagString = hashtagString + " " + tag
+
+            x = x + 1
+
+        return hashtagString
+
+    def descriptionGenerator(self):
+        pass
