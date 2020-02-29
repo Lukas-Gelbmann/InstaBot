@@ -1,18 +1,21 @@
 import InstagramAPI
-from random import seed
-from random import randint
+from random import randint, seed
 from time import sleep
 import os
 import urllib.request
 
-username = 'owexactly00@protonmail.com'
-password = 'mM9cjG9EpZaATis'
+username = ""
+password = ""
 users_list = []
 following_users = []
 follower_users = []
 postpath = '6'
 programpath = os.path.dirname(__file__)
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+with open(dir_path + "/credentials.txt", "r") as credentialFile:
+    username = credentialFile.readline()
+    password = credentialFile.readline()
 
 def main():
     seed(1)
