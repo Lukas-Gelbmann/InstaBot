@@ -21,7 +21,7 @@ class InstaBotFunctions:
         file_path = dir_path + "/txts/log.html"
 
         with open(file_path, "a+") as log:
-            if os.path.getsize(file_path) > 0: 
+            if os.path.getsize(file_path) > 0:
                 log.write("\nFunction:" + entry +
                 "\n\tTimestamp: " + str(datetime.now()) + 
                 "\n")
@@ -29,7 +29,6 @@ class InstaBotFunctions:
                 log.write("Function:" + entry +     
                 "\n\tTimestamp: " + str(datetime.now()) + 
                 "\n")
-
 
 
     def getPersonalData(self):
