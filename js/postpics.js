@@ -1,15 +1,16 @@
-console.log(process.argv)
 var arguments = process.argv.slice(2);
 
-var pictureName = arguments[0];
-var caption = arguments[1];
-var username = arguments[2];
-var password = arguments[3];
+var username = arguments[0];
+var password = arguments[1];
+var pictureName = arguments[2];
+var caption = arguments[3];
+var quotedCaption = "'" + caption + "'"
+
 
 console.log("Picture name: " + pictureName +
-            " Caption: " + caption +  
-            " Username: " + username + 
-            " Password: " + password);
+            "\n Caption: " + quotedCaption +  
+            "\n Username: " + username + 
+            "\n Password: " + password);
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -87,7 +88,10 @@ function login() {
             case 2:
                 locations = _e.sent();
                 mediaLocation = locations[0];
-                console.log(mediaLocation);
+                
+                //Commenting out media location console information
+                //console.log(mediaLocation);
+                
                 _c = (_b = ig.publish).photo;
                 _d = {};
                 return [4 /*yield*/, readFileAsync('../pictures/' + pictureName)];

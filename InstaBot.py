@@ -12,25 +12,25 @@ def main():
     bot = InstaModule.InstaBotFunctions(username,password)
 
     #get data
-    follower, following = bot.getPersonalData()
-    users = bot.getUsers("doggosdoingthings")
+    #follower, following = bot.getPersonalData()
+    #users = bot.getUsers("doggosdoingthings")
 
     #follow random user
-    bot.followUser(choice(users))
+    #bot.followUser(choice(users))
 
     #unfollow guy which you follow
-    bot.unfollowUser(choice(following))
+    #bot.unfollowUser(choice(following))
 
     #post pic code snippet 
-    #TODO caption can only be one word long because otherwise it overrides username and password
-    caption = 'TESTcaption'
-    picname = '125.jpeg'
-    command = 'node ./postpics.js ' + picname + " " + caption + " " + username[:-1] + " " + password
+    #todo caption can only be one word long because otherwise it overrides username and password
+    caption = "TEST caption"
+    picname = "test.jpg"
+    command = "node ./postpics.js "  + username[:-1] + " " + password + " " + picname + " " + "'" + caption + "'" 
     os.chdir(dir_path + '/js')
     os.system(command)
     os.chdir(dir_path)
 
     #get random hashtags
-    print(bot.randomHashtag(9))
+    # print(bot.randomHashtag(9))
 
 main()
