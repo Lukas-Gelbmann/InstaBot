@@ -3,7 +3,7 @@ from random import randint, seed, choice
 from time import sleep
 from datetime import datetime
 import os
-import urllib.request
+import requests
 
 class InstaBotFunctions:
     programpath = os.path.dirname(__file__)
@@ -20,14 +20,18 @@ class InstaBotFunctions:
         dir_path = os.path.dirname(os.path.realpath(__file__))
         file_path = dir_path + "/txts/log.html"
 
+        ip = requests.get('http://ip.42.pl/raw').text
+
         with open(file_path, "a+") as log:
             if os.path.getsize(file_path) > 0:
                 log.write("\nFunction:" + entry +
                 "\n\tTimestamp: " + str(datetime.now()) + 
+                "\n\tExectued from: " + ip +
                 "\n")
             else:        
                 log.write("Function:" + entry +     
                 "\n\tTimestamp: " + str(datetime.now()) + 
+                "\n\tExectued from: " + ip +
                 "\n")
 
 
