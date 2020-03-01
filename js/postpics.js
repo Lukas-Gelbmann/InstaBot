@@ -7,9 +7,9 @@ var username = arguments[2];
 var password = arguments[3];
 
 console.log("Picture name: " + pictureName +
-            "Caption: " + caption +  
-            "Username: " + username + 
-            "Password:" + password);
+            " Caption: " + caption +  
+            " Username: " + username + 
+            " Password: " + password);
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }

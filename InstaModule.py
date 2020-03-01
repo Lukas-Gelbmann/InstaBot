@@ -16,7 +16,7 @@ class InstaBotFunctions:
         api.login()
 
 
-    def getData(self):
+    def getPersonalData(self):
         print('[+] Fetching Data')
         api.getSelfUserFollowers()
         result = api.LastJson
@@ -26,10 +26,10 @@ class InstaBotFunctions:
         result = api.LastJson
         for user in result['users']:
             self.following_users.append({'pk': user['pk'], 'username': user['username']})
+        return self.follower_users, self.following_users
 
 
     def getUsers(self, account):
-        print('[+] Fetching Users')
         api.searchUsername(account)
         result = api.LastJson
         username_id = result['user']['pk']
@@ -40,6 +40,8 @@ class InstaBotFunctions:
         users = api.LastJson['users']
         for user in users:
             self.users_list.append({'pk': user['pk'], 'username': user['username']})
+        print('[+] '+ str(len(self.users_list)) +' Users fetched')
+        return self.users_list
 
 
     def getPicsAccount(self, account):
@@ -107,6 +109,33 @@ class InstaBotFunctions:
             if index == max:
                 print('Tried to follow ' + str(index) + ' people')
                 return
+
+
+    def followUser(self, user):
+        pk = user['pk']
+        username = user['username']
+        api.follow(pk)
+        result = api.LastJson
+        print(result)
+        if result['status'] == 'fail':
+            print('Failed to follow @' + username)
+        else:
+            if result['friendship_status']['following'] == 'True':
+                print('Now following @' + username)
+                api.getUserFeed(pk)
+                result = api.LastJson
+                if len(result['items']) > 0:
+                    api.like(result['items'][0]['id'])
+            else:
+                print('Trying to follow @' + username)
+
+
+    def unfollowUser(self, user):
+        api.unfollow(user['pk'])
+        if api.LastJson['status'] == 'ok':
+            print('Unfollowed @' + user['username'])
+        else:
+            print('Failed to unfollow @' + user['username'])
 
 
     def unfollowAll(self):
