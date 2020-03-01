@@ -23,14 +23,15 @@ def main():
 
     #post pic code snippet 
     #todo caption can only be one word long because otherwise it overrides username and password
-    caption = "TEST caption"
-    picname = "test.jpg"
-    command = "node ./postpics.js "  + username[:-1] + " " + password + " " + picname + " " + "'" + caption + "'" 
-    os.chdir(dir_path + '/js')
-    os.system(command)
-    os.chdir(dir_path)
+    #caption = "WE LOVE DOGS!\n" + bot.randomHashtag(9)
+    #picname = "test.jpg"
+    #command = "node ./postpics.js "  + username[:-1] + " " + password + " " + picname + " " + "'" + caption + "'" 
+    #os.chdir(dir_path + '/js')
+    #os.system(command)
+    #os.chdir(dir_path)
 
     #get random hashtags
     # print(bot.randomHashtag(9))
+    bot.getPersonalData()
 
 main()

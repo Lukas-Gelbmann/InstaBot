@@ -1,6 +1,7 @@
 import InstagramAPI
 from random import randint, seed, choice
 from time import sleep
+from datetime import datetime
 import os
 import urllib.request
 
@@ -15,6 +16,21 @@ class InstaBotFunctions:
         api = InstagramAPI.InstagramAPI(username,password)
         api.login()
 
+    def writeLog(self, entry):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = dir_path + "/txts/log.html"
+
+        with open(file_path, "a+") as log:
+            if os.path.getsize(file_path) > 0: 
+                log.write("\nFunction:" + entry +
+                "\n\tTimestamp: " + str(datetime.now()) + 
+                "\n")
+            else:        
+                log.write("Function:" + entry +     
+                "\n\tTimestamp: " + str(datetime.now()) + 
+                "\n")
+
+
 
     def getPersonalData(self):
         print('[+] Fetching Data')
@@ -26,6 +42,9 @@ class InstaBotFunctions:
         result = api.LastJson
         for user in result['users']:
             self.following_users.append({'pk': user['pk'], 'username': user['username']})
+        
+        self.writeLog("getPersonalData of " + user["username"])
+
         return self.follower_users, self.following_users
 
 
@@ -152,7 +171,7 @@ class InstaBotFunctions:
             hashtagList = f.read().splitlines()
         hashtagString = ""
         hashtags = []
-        while len(hashtags) < 9:
+        while len(hashtags) < amount:
             tag = choice(hashtagList) 
             if not tag in str(hashtags):
                 hashtags.append(tag)

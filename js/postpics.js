@@ -6,11 +6,10 @@ var pictureName = arguments[2];
 var caption = arguments[3];
 var quotedCaption = "'" + caption + "'"
 
-
-console.log("Picture name: " + pictureName +
-            "\n Caption: " + quotedCaption +  
-            "\n Username: " + username + 
-            "\n Password: " + password);
+console.log("[+] Picture name: " + pictureName +
+            "\n\tCaption: " + quotedCaption +  
+            "\n\tUsername: " + username + 
+            "\n\tPassword: " + password);
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -103,7 +102,19 @@ function login() {
                         _d)])];
             case 4:
                 publishResult = _e.sent();
-                console.log(publishResult);
+                
+                if (publishResult.status === "ok")
+                {  
+                    console.log("\n[+] Picture successfully uploaded" +
+                                "\n\tStatus: " + publishResult.status +
+                                "\n\tUpload-ID: " + publishResult.upload_id + 
+                                "\n\tLink: " + "https://www.instagram.com/p/" + publishResult.code + "/");
+                } else {
+                    console.log("[!] Something went wrong. Printing error output:\n");
+                    console.log(publishResult);
+                }
+                // console.log(publishResult);
+
                 return [2 /*return*/];
         }
     });
