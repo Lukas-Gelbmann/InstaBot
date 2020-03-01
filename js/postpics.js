@@ -1,3 +1,16 @@
+console.log(process.argv)
+var arguments = process.argv.slice(2);
+
+var pictureName = arguments[0];
+var caption = arguments[1];
+var username = arguments[2];
+var password = arguments[3];
+
+console.log("Picture name: " + pictureName +
+            "Caption: " + caption +  
+            "Username: " + username + 
+            "Password:" + password);
+
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,8 +48,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-/* tslint:disable:no-console */
-var IgApiClient = require('../node_modules/instagram-private-api').IgApiClient;
+var IgApiClient = require('../js/node_modules/instagram-private-api').IgApiClient;
 var readFile = require('fs').readFile;
 var promisify = require('util').promisify;
 var readFileAsync = promisify(readFile);
@@ -49,7 +61,7 @@ function login() {
                     // basic login-procedure
                     ig.state.generateDevice(process.env.IG_USERNAME);
                     ig.state.proxyUrl = process.env.IG_PROXY;
-                    return [4 /*yield*/, ig.account.login('owexactly00', 'mM9cjG9EpZaATis')];
+                    return [4 /*yield*/, ig.account.login(username, password)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -64,7 +76,7 @@ function login() {
             case 0: return [4 /*yield*/, login()];
             case 1:
                 _e.sent();
-                path = '../pictures/125.jpeg';
+                path = '../pictures/' + pictureName;
                 _a = {
                     latitude: 0.0,
                     longitude: 0.0,
@@ -78,12 +90,12 @@ function login() {
                 console.log(mediaLocation);
                 _c = (_b = ig.publish).photo;
                 _d = {};
-                return [4 /*yield*/, readFileAsync('./pictures/125.jpeg')];
+                return [4 /*yield*/, readFileAsync('../pictures/' + pictureName)];
             case 3: return [4 /*yield*/, _c.apply(_b, [(
                     // read the file into a Buffer
                     _d.file = _e.sent(),
                         // optional, default ''
-                        _d.caption = 'moin ',
+                        _d.caption = caption,
                         _d)])];
             case 4:
                 publishResult = _e.sent();

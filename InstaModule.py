@@ -157,3 +157,7 @@ class InstaBotFunctions:
         with open("/txts/temp.txt", "rw") as f:
             f.write(photo_path)
             f.write(caption)
+    
+    def postPicture(self):
+        function readTextFile(file)
+

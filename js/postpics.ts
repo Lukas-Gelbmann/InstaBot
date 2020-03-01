@@ -1,5 +1,4 @@
-/* tslint:disable:no-console */
-const { IgApiClient } = require('../node_modules/instagram-private-api');
+const { IgApiClient } = require('../js/node_modules/instagram-private-api');
 const { readFile } = require('fs');
 const { promisify } = require('util');
 const readFileAsync = promisify(readFile);
@@ -16,7 +15,7 @@ async function login() {
 (async () => {
   await login();
 
-  const path = '../pictures/125.jpeg';
+  const path = '../pictures/test.jpg';
   const { latitude, longitude, searchQuery } = {
     latitude: 0.0,
     longitude: 0.0,
@@ -39,9 +38,9 @@ async function login() {
 
   const publishResult = await ig.publish.photo({
     // read the file into a Buffer
-    file: await readFileAsync('./pictures/125.jpeg'),
+    file: await readFileAsync('../pictures/test.jpg'),
     // optional, default ''
-    caption: 'moin ',
+    caption: 'moin'
     // optional
     //location: mediaLocation,
     // optional

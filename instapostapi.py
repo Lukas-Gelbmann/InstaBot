@@ -6,7 +6,7 @@ import os
 username = ''
 password = ''
 dir_path = os.path.dirname(os.path.realpath(__file__))
-with open(dir_path + "/credentials.txt", "r") as credentialFile:
+with open(dir_path + "/txts/credentials.txt", "r") as credentialFile:
     username = credentialFile.readline()
     password = credentialFile.readline()
 
