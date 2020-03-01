@@ -1,5 +1,5 @@
 pictures/
-credentials.txt
+txts/credentials.txt
 __pycache__
-node_modules
+js/node_modules
 

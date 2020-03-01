@@ -4,41 +4,31 @@ from time import sleep
 import os
 import urllib.request
 
-username = ""
-password = ""
-users_list = []
-following_users = []
-follower_users = []
-postpath = '6'
-programpath = os.path.dirname(__file__)
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-with open(dir_path + "/txts/credentials.txt", "r") as credentialFile:
-    username = credentialFile.readline()
-    password = credentialFile.readline()
-
-# init api
-api = InstagramAPI.InstagramAPI(username, password)
-api.login()
-
 class InstaBotFunctions:
-    def getData(self):
-        global api
+    programpath = os.path.dirname(__file__)
+    users_list = []
+    following_users = []
+    follower_users = []
 
+    def __init__(self, username, password):
+        global api
+        api = InstagramAPI.InstagramAPI(username,password)
+        api.login()
+
+
+    def getData(self):
         print('[+] Fetching Data')
         api.getSelfUserFollowers()
         result = api.LastJson
         for user in result['users']:
-            follower_users.append({'pk': user['pk'], 'username': user['username']})
+            self.follower_users.append({'pk': user['pk'], 'username': user['username']})
         api.getSelfUsersFollowing()
         result = api.LastJson
         for user in result['users']:
-            following_users.append({'pk': user['pk'], 'username': user['username']})
+            self.following_users.append({'pk': user['pk'], 'username': user['username']})
 
 
     def getUsers(self, account):
-        global api
-
         print('[+] Fetching Users')
         api.searchUsername(account)
         result = api.LastJson
@@ -49,14 +39,12 @@ class InstaBotFunctions:
         api.getMediaLikers(media_id)
         users = api.LastJson['users']
         for user in users:
-            users_list.append({'pk': user['pk'], 'username': user['username']})
+            self.users_list.append({'pk': user['pk'], 'username': user['username']})
 
 
     def getPicsAccount(self, account):
-        global api
-
         print('[+] Fetching Pics from Account')
-        path = os.path.join(programpath, 'pics/')
+        path = os.path.join(self.programpath, 'pictures/')
         if not os.path.exists(path):
             os.makedirs(path)
         api.searchUsername(account)
@@ -77,10 +65,8 @@ class InstaBotFunctions:
 
 
     def getPicsHashtag(self, hashtag):
-        global api
-
         print('Get pictures')
-        path = programpath + '/pics'
+        path = self.programpath + '/pictures'
         if not os.path.exists(path):
             os.makedirs(path)
         api.getHashtagFeed(hashtag)
@@ -98,24 +84,21 @@ class InstaBotFunctions:
 
 
     def followUsers(self, max):
-        global api
-
         print('Follow ' + str(max) + ' users')
         index = 0
-        for user in users_list:
-            if not user['pk'] in following_users:
+        for user in self.users_list:
+            if not user['pk'] in self.following_users:
                 index += 1
-                print('Following @' + user['username'])
                 api.follow(user['pk'])
-                api.getUserFeed(user['pk'])
-                result = api.LastJson
-                if result['status'] == 'ok':
-                    print('Liking newest post')
-                    try:
-                        api.like(result['items'][0]['id'])
-                    except:
-                        print("[!] Profile is private, can't like newest post")
-
+                if api.LastJson['status'] == 'fail':
+                    print('Failed to follow @' + user['username'])
+                else:
+                    if api.LastJson['friendship_status']['following'] == 'True':
+                        print('Now following @' + user['username'])
+                        api.getUserFeed(user['pk'])
+                        api.like(api.LastJson['items'][0]['id'])
+                    else:
+                        print('Trying to follow @' + user['username'])
                 waittime = randint(30, 60)
                 print('Waiting ' + str(waittime) + ' seconds')
                 sleep(waittime)
@@ -127,9 +110,7 @@ class InstaBotFunctions:
 
 
     def unfollowAll(self):
-        global api
-        
-        for user in following_users:
+        for user in self.following_users:
             print('Unfollow all users')
             print('Unfollowing @' + user['username'])
             api.unfollow(user['pk'])
@@ -137,27 +118,24 @@ class InstaBotFunctions:
             sleep(randint(300, 600))
 
     def randomHashtag(self, amount):
-        global dir_path
-
+        dir_path = os.path.dirname(os.path.realpath(__file__))
         with open(dir_path + "/txts/hashtags.txt") as f:
             hashtagList = f.read().splitlines()
-
         hashtagString = ""
-        x = 0
-        while x < amount:
-            tag = choice(hashtagList)
-            
-            hashtagString = hashtagString + " " + tag
-
-            x = x + 1
-
+        hashtags = []
+        while len(hashtags) < 9:
+            tag = choice(hashtagList) 
+            if not tag in str(hashtags):
+                hashtags.append(tag)
+                hashtagString = hashtagString + " " + tag
         return hashtagString
 
     def generateTempFile(self, photo_path, caption):
-        with open("/txts/temp.txt", "rw") as f:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        with open(dir_path + "/txts/temp.txt", "rw") as f:
             f.write(photo_path)
             f.write(caption)
     
     def postPicture(self):
-        function readTextFile(file)
+        return
 
