@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 import requests
 import urllib
+import shutil
 
 class InstaBotFunctions:
     programpath = os.path.dirname(__file__)
@@ -89,23 +90,32 @@ class InstaBotFunctions:
                     os.remove(path + str(i))
 
 
-    def getPicsHashtag(self, hashtag):
+    def getPicsHashtag(self):
         print('Get pictures')
         path = self.programpath + '/pictures'
+        if os.path.exists(path):
+            shutil.rmtree(path, ignore_errors=True)
         if not os.path.exists(path):
             os.makedirs(path)
-        api.getHashtagFeed(hashtag)
-        result = api.LastJson
-        for i in range(len(result)):
-            if result['items'][i]['media_type'] == 1:
-                url = result['items'][i]['image_versions2']['candidates'][0]['url']
-                print(url)
-                openurl = urllib.request.urlopen(url)
-                f = open(path + '/' + str(i) + '.jpg', 'wb')
-                f.write(openurl.read())
-                f.close()
-                if os.path.getsize(path + '/' + str(i) + '.jpg') < 1000:
-                    os.remove(path + '/' + str(i) + '.jpg')
+        hashtags = self.randomHashtagList(10)
+        print(hashtags)
+        x = 0
+        for hashtag in hashtags:
+            hashtag = hashtag[1:]
+            api.getHashtagFeed(hashtag)
+            sleep(10)
+            result = api.LastJson
+            for i in range(len(result)):
+                if result['items'][i]['media_type'] == 1:
+                    x = x + 1
+                    url = result['items'][i]['image_versions2']['candidates'][0]['url']
+                    print(url)
+                    openurl = urllib.request.urlopen(url)
+                    f = open(path + '/' + str(x) + '.jpeg', 'wb')
+                    f.write(openurl.read())
+                    f.close()
+                    if os.path.getsize(path + '/' + str(x) + '.jpeg') < 1000:
+                        os.remove(path + '/' + str(x) + '.jpeg')
 
 
     def followUsers(self, max):
@@ -169,7 +179,7 @@ class InstaBotFunctions:
             # set this really long to avoid from suspension
             sleep(randint(300, 600))
 
-    def randomHashtag(self, amount):
+    def randomHashtagString(self, amount):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         with open(dir_path + "/txts/hashtags.txt") as f:
             hashtagList = f.read().splitlines()
@@ -182,6 +192,19 @@ class InstaBotFunctions:
                 hashtagString = hashtagString + " " + tag
         return hashtagString
 
+
+    def randomHashtagList(self, amount):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        with open(dir_path + "/txts/hashtags.txt") as f:
+            hashtagList = f.read().splitlines()
+        hashtags = []
+        while len(hashtags) < amount:
+            tag = choice(hashtagList) 
+            if not tag in str(hashtags):
+                hashtags.append(tag)
+        return hashtags
+
+
     def generateTempFile(self, photo_path, caption):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         with open(dir_path + "/txts/temp.txt", "rw") as f:
@@ -192,7 +215,7 @@ class InstaBotFunctions:
         #post pic code snippet 
         #todo caption can only be one word long because otherwise it overrides username and password
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        caption = caption + "\n" + self.randomHashtag(9)
+        caption = caption + "\n" + self.randomHashtagString(9)
         command = "node ./postpics.js "  + username[:-1] + " " + password + " " + picname + " " + "'" + caption + "'" 
         os.chdir(dir_path + '/js')
         os.system(command)

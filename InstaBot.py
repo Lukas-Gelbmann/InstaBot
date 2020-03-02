@@ -13,23 +13,26 @@ def main():
     #login
     bot = InstaModule.InstaBotFunctions(username,password)
     followedusers = []
-
+    picnumber = 0
 
     #start
     while True:
+
         #timer to start
-        start = '16:00:00'
-        startend = '16:01:00'
+        start = '17:01:00'
+        startend = '17:02:00'
         print('waiting until ' + start)
         while start > str(datetime.datetime.today().time()) or startend < str(datetime.datetime.today().time()):
             sleep(10)
+
         #here you are at 10am
         print('start')
         sleep(randint(0,600))
 
-
         #getting users to follow
         print('fetching data')
+        bot.getPicsHashtag()
+        sleep(randint(300,600))
         follower, following = bot.getPersonalData()
         fetchedusers = bot.getUsers("doggosdoingthings")
         goodusers = []
@@ -37,6 +40,7 @@ def main():
             if not user in follower or following:
                 goodusers.append(user)
 
+        #follow / unfollow
         print('doing stuff')
         for _ in range(12):
             #follow
@@ -53,6 +57,9 @@ def main():
             sleep(randint(3000,4000))
 
         #postpicture
-        bot.postPicture('We love dogs!', '125.jpeg', username, password)
+        for _ in range(3):
+            picnumber = picnumber + 1
+            bot.postPicture('We love dogs!', picnumber + '.jpeg', username, password)
+            sleep(randint(3000,4000))
 
 main()
