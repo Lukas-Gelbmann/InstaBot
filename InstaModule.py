@@ -4,6 +4,7 @@ from time import sleep
 from datetime import datetime
 import os
 import requests
+import urllib
 
 class InstaBotFunctions:
     programpath = os.path.dirname(__file__)
