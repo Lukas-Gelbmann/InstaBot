@@ -1,6 +1,8 @@
 import InstaModule
 import os
-from random import choice
+from random import choice, randint
+from time import sleep
+import datetime
 
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -10,28 +12,47 @@ def main():
 
     #login
     bot = InstaModule.InstaBotFunctions(username,password)
+    followedusers = []
 
-    #get data
-    #follower, following = bot.getPersonalData()
-    #users = bot.getUsers("doggosdoingthings")
 
-    #follow random user
-    #bot.followUser(choice(users))
+    #start
+    while True:
+        #timer to start
+        start = '16:00:00'
+        startend = '16:01:00'
+        print('waiting until ' + start)
+        while start > str(datetime.datetime.today().time()) or startend < str(datetime.datetime.today().time()):
+            sleep(10)
+        #here you are at 10am
+        print('start')
+        sleep(randint(0,600))
 
-    #unfollow guy which you follow
-    #bot.unfollowUser(choice(following))
 
-    #post pic code snippet 
-    #todo caption can only be one word long because otherwise it overrides username and password
-    #caption = "WE LOVE DOGS!\n" + bot.randomHashtag(9)
-    #picname = "test.jpg"
-    #command = "node ./postpics.js "  + username[:-1] + " " + password + " " + picname + " " + "'" + caption + "'" 
-    #os.chdir(dir_path + '/js')
-    #os.system(command)
-    #os.chdir(dir_path)
+        #getting users to follow
+        print('fetching data')
+        follower, following = bot.getPersonalData()
+        fetchedusers = bot.getUsers("doggosdoingthings")
+        goodusers = []
+        for user in fetchedusers:
+            if not user in follower or following:
+                goodusers.append(user)
 
-    #get random hashtags
-    # print(bot.randomHashtag(9))
-    bot.getPersonalData()
+        print('doing stuff')
+        for _ in range(12):
+            #follow
+            sleep(randint(300,600))
+            followuser = choice(goodusers)
+            followedusers.append(followuser)
+            bot.followUser(followuser)
+            goodusers.remove(followuser)
+            sleep(randint(300,600))
+            if len(followedusers) > 24:
+                #unfollow
+                bot.unfollowUser(followedusers[0])
+                followedusers.remove(followedusers[0])
+            sleep(randint(3000,4000))
+
+        #postpicture
+        bot.postPicture('We love dogs!', '125.jpeg', username, password)
 
 main()

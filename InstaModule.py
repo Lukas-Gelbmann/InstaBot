@@ -188,6 +188,13 @@ class InstaBotFunctions:
             f.write(photo_path)
             f.write(caption)
     
-    def postPicture(self):
-        return
+    def postPicture(self, caption, picname, username, password):
+        #post pic code snippet 
+        #todo caption can only be one word long because otherwise it overrides username and password
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        caption = caption + "\n" + self.randomHashtag(9)
+        command = "node ./postpics.js "  + username[:-1] + " " + password + " " + picname + " " + "'" + caption + "'" 
+        os.chdir(dir_path + '/js')
+        os.system(command)
+        os.chdir(dir_path)
 
