@@ -26,15 +26,9 @@ class InstaBotFunctions:
 
         with open(file_path, "a+") as log:
             if os.path.getsize(file_path) > 0:
-                log.write("\nFunction:" + entry +
-                "\n\tTimestamp: " + str(datetime.now()) + 
-                "\n\tExectued from: " + ip +
-                "\n")
+                log.write("Timestamp: " + str(datetime.now()) + "\t\tExectued from: " + ip + "\t\t Function:" + entry)
             else:        
-                log.write("Function:" + entry +     
-                "\n\tTimestamp: " + str(datetime.now()) + 
-                "\n\tExectued from: " + ip +
-                "\n")
+                log.write("Timestamp: " + str(datetime.now()) + "\t\tExectued from: " + ip + "\t\t Function:" + entry)
 
 
     def getPersonalData(self):
