@@ -3,12 +3,24 @@ import os
 from random import choice, randint
 from time import sleep
 import datetime
+import sys
+import datetime
 
 def main():
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    with open(dir_path + "/txts/credentials.txt", "r") as credentialFile:
-        username = credentialFile.readline()
-        password = credentialFile.readline()
+    #dir_path = os.path.dirname(os.path.realpath(__file__))
+    #with open(dir_path + "/txts/credentials.txt", "r") as credentialFile:
+    #    username = credentialFile.readline()
+    #    password = credentialFile.readline()
+
+    # passing command line arguments w/ credentials
+    username = sys.argv[1]
+    password = sys.argv[2]
+
+    print("\nLaunching bot with credentials:")
+    print("\tUsername: " + username)
+    print("\tPassword: " + password)
+    print("\tStarting time: " + str(datetime.datetime.now()))
+    print("\n\n")
 
     #login
     bot = InstaModule.InstaBotFunctions(username,password)

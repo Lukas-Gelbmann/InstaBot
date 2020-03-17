@@ -22,8 +22,11 @@ class InstaBotFunctions:
         dir_path = os.path.dirname(os.path.realpath(__file__))
         file_path = dir_path + "/txts/log.html"
 
-        ip = requests.get('http://ip.42.pl/raw').text
-
+        try:
+            ip = requests.get('http://ip.42.pl/raw').text
+        except:
+            ip = "Couldn't fetch external ip."
+       
         with open(file_path, "a+") as log:
             if os.path.getsize(file_path) > 0:
                 log.write("Timestamp: " + str(datetime.now()) + "\t\tExectued from: " + ip + "\t\t Function:" + entry)
@@ -42,7 +45,7 @@ class InstaBotFunctions:
         for user in result['users']:
             self.following_users.append({'pk': user['pk'], 'username': user['username']})
         
-        self.writeLog("getPersonalData of " + user["username"])
+        self.writeLog("getPersonalData")
 
         return self.follower_users, self.following_users
 
@@ -59,6 +62,9 @@ class InstaBotFunctions:
         for user in users:
             self.users_list.append({'pk': user['pk'], 'username': user['username']})
         print('[+] '+ str(len(self.users_list)) +' Users fetched')
+
+        self.writeLog("getUsers")
+
         return self.users_list
 
 
@@ -82,6 +88,8 @@ class InstaBotFunctions:
                 f.close()
                 if os.path.getsize(path + str(i)) < 1000:
                     os.remove(path + str(i))
+
+        self.writeLog("getPicsAccount")
 
 
     def getPicsHashtag(self):
@@ -111,6 +119,7 @@ class InstaBotFunctions:
                     if os.path.getsize(path + '/' + str(x) + '.jpeg') < 1000:
                         os.remove(path + '/' + str(x) + '.jpeg')
 
+        self.writeLog("getPicsHashtag")
 
     def followUsers(self, max):
         print('Follow ' + str(max) + ' users')
@@ -137,6 +146,8 @@ class InstaBotFunctions:
                 print('Tried to follow ' + str(index) + ' people')
                 return
 
+        self.writeLog("followUsers")
+
 
     def followUser(self, user):
         pk = user['pk']
@@ -156,6 +167,7 @@ class InstaBotFunctions:
             else:
                 print('Trying to follow @' + username)
 
+        self.writeLog("followUser")
 
     def unfollowUser(self, user):
         api.unfollow(user['pk'])
@@ -164,6 +176,7 @@ class InstaBotFunctions:
         else:
             print('Failed to unfollow @' + user['username'])
 
+        self.writeLog("unfollowUser")
 
     def unfollowAll(self):
         for user in self.following_users:
@@ -172,6 +185,8 @@ class InstaBotFunctions:
             api.unfollow(user['pk'])
             # set this really long to avoid from suspension
             sleep(randint(300, 600))
+        
+        self.writeLog("unfollowAll")
 
     def randomHashtagString(self, amount):
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -186,6 +201,7 @@ class InstaBotFunctions:
                 hashtagString = hashtagString + " " + tag
         return hashtagString
 
+        self.writeLog("randomHashtagString")
 
     def randomHashtagList(self, amount):
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -198,20 +214,25 @@ class InstaBotFunctions:
                 hashtags.append(tag)
         return hashtags
 
+        self.writeLog("randomHashtagList")
 
     def generateTempFile(self, photo_path, caption):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         with open(dir_path + "/txts/temp.txt", "rw") as f:
             f.write(photo_path)
             f.write(caption)
+
+        self.writeLog("generateTempFile")
     
     def postPicture(self, caption, picname, username, password):
         #post pic code snippet 
         #todo caption can only be one word long because otherwise it overrides username and password
         dir_path = os.path.dirname(os.path.realpath(__file__))
         caption = caption + "\n" + self.randomHashtagString(9)
-        command = "node ./postpics.js "  + username[:-1] + " " + password + " " + picname + " " + "'" + caption + "'" 
+        command = "node ./postpics.js "  + username + " " + password + " " + picname + " " + "'" + caption + "'" 
         os.chdir(dir_path + '/js')
         os.system(command)
         os.chdir(dir_path)
+
+        self.writeLog("postPicture")
 
