@@ -29,10 +29,9 @@ def main():
 
     #start
     while True:
-
         #timer to start
-        start = '17:01:00'
-        startend = '17:02:00'
+        start = '23:25:00'
+        startend = '23:26:00'
         print('waiting until ' + start)
         while start > str(datetime.datetime.today().time()) or startend < str(datetime.datetime.today().time()):
             sleep(10)
