@@ -7,11 +7,6 @@ import sys
 import datetime
 
 def main():
-    #dir_path = os.path.dirname(os.path.realpath(__file__))
-    #with open(dir_path + "/txts/credentials.txt", "r") as credentialFile:
-    #    username = credentialFile.readline()
-    #    password = credentialFile.readline()
-
     # passing command line arguments w/ credentials
     username = sys.argv[1]
     password = sys.argv[2]
@@ -31,29 +26,36 @@ def main():
     while True:
 
         #timer to start
-        start = '17:01:00'
-        startend = '17:02:00'
+        start = '13:54:00'
+        startend = '14:01:00'
         print('waiting until ' + start)
         while start > str(datetime.datetime.today().time()) or startend < str(datetime.datetime.today().time()):
             sleep(10)
 
         #here you are at 10am
         print('start')
-        sleep(randint(0,600))
+        sleep(randint(10,30))
 
         #getting users to follow
         print('fetching data')
         bot.getPicsHashtag()
-        sleep(randint(300,600))
+        sleep(randint(10,30))
         follower, following = bot.getPersonalData()
         fetchedusers = bot.getUsers("doggosdoingthings")
         goodusers = []
         for user in fetchedusers:
             if not user in follower or following:
                 goodusers.append(user)
+        sleep(randint(10,30))
+        #postpicture
+        print('post pictures')
+        for _ in range(3):
+            picnumber = picnumber + 1
+            bot.postPicture('We love dogs!', str(picnumber) + '.jpeg', username, password)
+            sleep(randint(3000,4000))
 
         #follow / unfollow
-        print('doing stuff')
+        print('follow / unfollow')
         for _ in range(12):
             #follow
             sleep(randint(300,600))
@@ -68,10 +70,5 @@ def main():
                 followedusers.remove(followedusers[0])
             sleep(randint(3000,4000))
 
-        #postpicture
-        for _ in range(3):
-            picnumber = picnumber + 1
-            bot.postPicture('We love dogs!', picnumber + '.jpeg', username, password)
-            sleep(randint(3000,4000))
-
+    
 main()
